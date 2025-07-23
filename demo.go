@@ -27,7 +27,7 @@ type Demo struct {
 }
 
 // New created a new Demo plugin.
-func New(ctx context.Context, next http.Handler, config *Config, name string) (http.Handler, error) {
+func New(_ context.Context, next http.Handler, config *Config, name string) (http.Handler, error) {
 	return &Demo{
 		next:    next,
 		name:    name,
