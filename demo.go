@@ -2,64 +2,53 @@
 package plugindemo
 
 import (
-	"bytes"
 	"context"
-	"fmt"
 	"net/http"
-	"text/template"
+	"strings"
 )
 
 // Config the plugin configuration.
 type Config struct {
-	Headers map[string]string `json:"headers,omitempty"`
+	Enabled bool `json:"enabled,omitempty"`
 }
 
 // CreateConfig creates the default plugin configuration.
 func CreateConfig() *Config {
 	return &Config{
-		Headers: make(map[string]string),
+		Enabled: true,
 	}
 }
 
 // Demo a Demo plugin.
 type Demo struct {
-	next     http.Handler
-	headers  map[string]string
-	name     string
-	template *template.Template
+	next    http.Handler
+	name    string
+	enabled bool
 }
 
 // New created a new Demo plugin.
 func New(ctx context.Context, next http.Handler, config *Config, name string) (http.Handler, error) {
-	if len(config.Headers) == 0 {
-		return nil, fmt.Errorf("headers cannot be empty")
-	}
-
 	return &Demo{
-		headers:  config.Headers,
-		next:     next,
-		name:     name,
-		template: template.New("demo").Delims("[[", "]]"),
+		next:    next,
+		name:    name,
+		enabled: config.Enabled,
 	}, nil
 }
 
 func (a *Demo) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
-	for key, value := range a.headers {
-		tmpl, err := a.template.Parse(value)
-		if err != nil {
-			http.Error(rw, err.Error(), http.StatusInternalServerError)
-			return
-		}
 
-		writer := &bytes.Buffer{}
+	splitRemoteAddr := strings.Split(req.RemoteAddr, ":")
 
-		err = tmpl.Execute(writer, req)
-		if err != nil {
-			http.Error(rw, err.Error(), http.StatusInternalServerError)
-			return
-		}
+	// If the remote address is not in the expected format, fail gracefully and just pass the request
+	if len(splitRemoteAddr) != 2 {
+		a.next.ServeHTTP(rw, req)
+		return
+	}
 
-		req.Header.Set(key, writer.String())
+	remoteIP := splitRemoteAddr[0]
+
+	if req.Header.Get("X-Forwarded-For") == "" {
+		req.Header.Set("X-Forwarded-For", remoteIP)
 	}
 
 	a.next.ServeHTTP(rw, req)
