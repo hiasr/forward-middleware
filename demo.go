@@ -36,7 +36,6 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 }
 
 func (a *Demo) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
-
 	splitRemoteAddr := strings.Split(req.RemoteAddr, ":")
 
 	// If the remote address is not in the expected format, fail gracefully and just pass the request
