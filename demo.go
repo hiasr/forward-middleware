@@ -1,3 +1,4 @@
+// Package forwardmiddleware provides a demo middleware that adds the X-Forwarded-For header
 package forwardmiddleware
 
 import (
