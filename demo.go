@@ -38,8 +38,8 @@ func New(_ context.Context, next http.Handler, config *Config, name string) (htt
 func (a *Demo) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	splitRemoteAddr := strings.Split(req.RemoteAddr, ":")
 
-	// If the remote address is not in the expected format, fail gracefully and just pass the request
-	if len(splitRemoteAddr) != 2 {
+	// If the remote address is not in an expected format, fail gracefully and just pass the request
+	if len(splitRemoteAddr) == 0 || len(splitRemoteAddr) > 2 {
 		a.next.ServeHTTP(rw, req)
 		return
 	}

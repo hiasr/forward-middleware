@@ -1,3 +1,3 @@
-module github.com/hiasr/forward-middleware
+module github.com/hiasr/forwardmiddleware
 
 go 1.19
