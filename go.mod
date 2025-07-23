@@ -1,3 +1,3 @@
-module github.com/traefik/plugindemo
+module github.com/hiasr/forward-middleware
 
 go 1.19

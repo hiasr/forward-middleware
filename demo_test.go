@@ -1,4 +1,4 @@
-package plugindemo_test
+package forwardmiddleware_test
 
 import (
 	"testing"

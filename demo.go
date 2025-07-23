@@ -1,5 +1,4 @@
-// Package plugindemo a demo plugin.
-package plugindemo
+package forwardmiddleware
 
 import (
 	"context"
