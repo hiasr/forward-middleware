@@ -1,12 +1,10 @@
-displayName: Demo Plugin
+displayName: Add Forwarded Headers
 type: middleware
 iconPath: .assets/icon.png
 
-import: github.com/traefik/plugindemo
+import: github.com/hiasr/forward-middleware
 
-summary: '[Demo] Add Request Header'
+summary: 'Add Forward Headers'
 
 testData:
-  Headers:
-    X-Demo: test
-    X-URL: '{{URL}}'
+  Enabled: true
