@@ -2,7 +2,7 @@ displayName: Add Forwarded Headers
 type: middleware
 iconPath: .assets/icon.png
 
-import: github.com/hiasr/forward-middleware
+import: github.com/hiasr/forwardmiddleware
 
 summary: 'Add Forward Headers'
 
