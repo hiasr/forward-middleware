@@ -4,7 +4,7 @@ iconPath: .assets/icon.png
 
 import: github.com/hiasr/forwardmiddleware
 
-summary: 'Add Forward Headers'
+summary: 'Set X-Forwarded-For header if not already set to enable a working ipAllowList with both direct and indirect access.'
 
 testData:
   Enabled: true
